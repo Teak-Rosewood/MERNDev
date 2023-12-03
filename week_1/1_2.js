@@ -31,6 +31,7 @@ for (i in nums){
     }
 }
 
+
 console.log("Biggest number:", biggest_num)
 
 const person = {
@@ -58,3 +59,44 @@ function changeTense(sum) {
 let a = 10
 let b = 20
 let sum = NumSum(a, b, changeTense)
+
+// Question Set 4 (Assignment)
+
+// Question 1
+// Create a counter in Javascript, counts down from 30 to 0
+
+function printNumber(num){
+    if(num > 0){
+        setTimeout(function timout(){
+            console.log("Number Count:", num);
+            printNumber(num-1);
+        }, 1000)
+    }
+}
+printNumber(30);
+
+// Question 2
+// calculate the time it takes between a setTimeout call and the inner function ac
+
+const t = new Date().getTime();
+setTimeout(function printNumber(){
+    var a = new Date().getTime() - t
+    console.log("Number printing:", 10);
+    console.log("Actual Time Taken:", a);
+}, 500);
+
+// Question 3 
+// Create a terminal clock (Hours:Minutes:Seconds)
+
+const second = 1000
+const minute = second * 60;
+const hour = minute * 60;
+
+function DisplayTime(){
+    setTimeout(function timeout(){
+        var d = new Date();
+        console.log(d.getHours()+':'+d.getMinutes()+':'+d.getSeconds());
+        DisplayTime()
+    }, 1000);
+}
+DisplayTime();
