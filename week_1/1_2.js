@@ -39,3 +39,22 @@ const person = {
     gender: 1
 };
 console.log(person.f_name)
+
+// Question Set 3
+
+function changeTense(sum) {
+    console.log("sum of the two numbers were:" ,sum)
+}
+
+function NumSum (a, b, myCallback){
+    let sum = a+b;
+    myCallback(sum);
+    return sum;
+}
+
+function changeTense(sum) {
+    console.log("sum of the two numbers were:" ,sum)
+}
+let a = 10
+let b = 20
+let sum = NumSum(a, b, changeTense)
