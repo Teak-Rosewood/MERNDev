@@ -2,9 +2,10 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 //`const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 
 const rounds = 10;
-const passowrd = 'testing123';
+
 
 const app = express();
 const port = 3000;
@@ -12,9 +13,9 @@ app.use(bodyParser.json());
 
 const users = [
     {
-        username: "admin",
-        password: "admin"
-    }
+        username: 'hello',
+        password: '$2b$10$wRJCXpBLcPDaiE1T4hsfF.ijN3f24cPtxLtpPJnGVHzu78Y6Ew/de' 
+    }    
 ]
 
 function searchUsername(username){
@@ -34,6 +35,11 @@ async function registerUser(username, password){
     console.log(user);
     users.push(user);
     return hashedPassword;
+}
+const jwt_password = 'jwtpassword';
+async function getJWT(username){
+    let token = jwt.sign({username: username}, jwt_password);
+    return token;
 }
 
 app.use('/signup', async (req, res) =>{
@@ -61,10 +67,22 @@ app.use('/login', async (req, res) =>{
         let val = await bcrypt.compare(password, hashedPassword);
         if(val === false)
             res.status(411).send("Incorrect password");
-        else
-            res.status(200).send("Logged in");
+        else{
+            token = await getJWT(username);
+            res.send(token);
+        }
     }
 
+});
+
+app.use('/verify', async (req, res) =>{
+    let token = req.body.token;
+    let a = await jwt.verify(token, jwt_password);
+
+    if (a === false)
+        res.status(411).send("Invalid token");
+    else
+        res.status(200).send("Valid token: " + a.username);
 });
 
 app.listen(port);
