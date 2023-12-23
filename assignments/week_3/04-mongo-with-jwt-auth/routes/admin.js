@@ -4,12 +4,15 @@ const router = Router();
 const {Admin, User, Course} = require("../db/index");
 const jwt = require('jsonwebtoken');
 const password = 'jwtpass'
+const bcrypt = require('bcrypt')
+const rounds = 10
 // Admin Routes
-router.post('/signup', (req, res) => {
+router.post('/signup', async(req, res) => {
+    let password = await bcrypt.hash(req.headers.password, rounds);
     // Implement admin signup logic
     Admin.create({
         username: req.headers['username'],
-        password: req.headers['password']
+        password: password
     })
     res.json({
         message: "Admin created successflly"
@@ -17,12 +20,18 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/signin', async (req, res) => {
-    const person = await Admin.find({username: req.headers.username, password: req.headers.password});
+    const person = await Admin.find({username: req.headers.username});
     if(person.length !== 1)
-        res.status(404).json({message: "Invalid admin user or password"});
+        res.status(404).json({message: "Invalid username or password"});
     else{
-        let token = jwt.sign({username: req.headers.username}, password);
-        res.status(200).json({token: token});
+        let val = await bcrypt.compare(req.headers.password, person[0]['password']);
+        if(val === false ){
+            res.status(404).json({message: "Invalid username or password"});
+        }
+        else{
+            let token = jwt.sign({username: req.headers.username}, password);
+            res.status(200).json({token: token});
+        }
     }
 });
 
