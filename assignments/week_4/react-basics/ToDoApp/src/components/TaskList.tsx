@@ -19,6 +19,7 @@ const TaskList = ({ data, markComplete }: TodoListProp) => {
         if (todo) todo.completed = status;
         markComplete(data);
         setTodoData((prev) => !prev);
+        todoData;
     };
     return (
         <>

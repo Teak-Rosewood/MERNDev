@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 interface TaskInfoProp {
     title: string;
     description: string;
