@@ -15,18 +15,19 @@ const TaskInfo = ({
     let buttonStatus = completed ? "Completed" : "Mark as Done";
     return (
         <>
-            <h3 key={id + "-title"}>{title}</h3>
+            <h4 key={id + "-title"}>{title}</h4>
             <div key={id + "-description"}>{description}</div>
             <button
                 type="button"
                 className="btn btn-secondary"
-                key={id + "button"}
+                key={id + "-button"}
                 onClick={() => {
                     ButtonPressed(id, !completed);
                 }}
             >
                 {buttonStatus}
             </button>
+            <br />
         </>
     );
 };

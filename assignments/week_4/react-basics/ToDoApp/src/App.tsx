@@ -33,7 +33,7 @@ function App() {
             />
             <br></br>
             <br></br>
-            <TaskList data={todoState} markComplete={setTodoState} />
+            <TaskList data={todoState} />
         </>
     );
 }
