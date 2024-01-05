@@ -5,13 +5,7 @@ interface TaskInfoProp {
     id: number;
     ButtonPressed: (id: number, status: boolean) => void;
 }
-const TaskInfo = ({
-    title,
-    description,
-    completed,
-    id,
-    ButtonPressed,
-}: TaskInfoProp) => {
+const TaskInfo = ({ title, description, completed, id, ButtonPressed }: TaskInfoProp) => {
     let buttonStatus = completed ? "Completed" : "Mark as Done";
     return (
         <>

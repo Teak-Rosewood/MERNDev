@@ -26,14 +26,10 @@ function App() {
 
     return (
         <>
-            <InputBar
-                title="Task"
-                description="Task Description"
-                getData={getData}
-            />
+            <InputBar title="Task" description="Task Description" getData={getData} />
             <br></br>
             <br></br>
-            <TaskList data={todoState} />
+            <TaskList data={todoState} setTodoState={setTodoState} />
         </>
     );
 }

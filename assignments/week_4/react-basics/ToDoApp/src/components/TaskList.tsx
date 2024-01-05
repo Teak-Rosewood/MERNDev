@@ -1,4 +1,3 @@
-import { useState } from "react";
 import TaskInfo from "./TaskInfo";
 
 interface TodoDataProp {
@@ -8,15 +7,19 @@ interface TodoDataProp {
     completed: boolean;
 }
 
-type todoArray = TodoDataProp[];
+interface todoArray {
+    data: TodoDataProp[];
+    setTodoState: (data: TodoDataProp[]) => void;
+}
 
-const TaskList: React.FC<{ data: todoArray }> = ({ data }) => {
-    const [todoData, setTodoData] = useState(false);
+const TaskList: React.FC<todoArray> = ({ data, setTodoState }) => {
     const ButtonPressed = (id: number, status: boolean) => {
-        const todo = data.find((todo) => todo.id === id);
-        if (todo) todo.completed = status;
-        setTodoData((prev) => !prev);
-        todoData;
+        const todoIndex = data.findIndex((todo) => todo.id === id);
+        if (todoIndex !== -1) {
+            const newData = [...data];
+            newData[todoIndex].completed = status;
+            setTodoState(newData);
+        }
     };
     return (
         <>
