@@ -1,0 +1,21 @@
+{
+  "name": "week_3",
+  "version": "1.0.0",
+  "main": "database.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.3",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {},
+  "description": ""
+}
