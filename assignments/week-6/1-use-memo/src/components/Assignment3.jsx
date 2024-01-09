@@ -8,12 +8,16 @@ const Assignment3 = () => {
         { name: 'Chips', value: 20 },
         { name: 'Onion', value: 30 },
         { name: 'Tomato', value: 30 },
+        { name: 'Pringles', value: 100}
         // Add more items as needed
     ]);
 
     // Your code starts here
-    let tempSum = 0;
-    const totalValue = useMemo(() => {items.forEach((val) => { tempSum = tempSum + val.value})}, [items]);
+    const totalValue = useMemo(() => {
+        let tempSum = 0;
+        items.forEach((val) => { tempSum = tempSum + val.value })
+        return tempSum
+        }, [items]);
     // Your code ends here
     return (
         <div>
@@ -22,6 +26,7 @@ const Assignment3 = () => {
                     <li key={index}>{item.name} - Price: ${item.value}</li>
                 ))}
             </ul>
+            {console.log(totalValue)}
             <p>Total Value: {totalValue}</p>
         </div>
     );

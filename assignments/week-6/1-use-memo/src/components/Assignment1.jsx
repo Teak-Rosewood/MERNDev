@@ -21,7 +21,7 @@ export function Assignment1() {
         <div>
             <input 
                 type="number" 
-                value={input} 
+                // value={input} 
                 onChange={(e) => setInput(Number(e.target.value))} 
             />
             <p>Calculated Value: {expensiveValue}</p>
