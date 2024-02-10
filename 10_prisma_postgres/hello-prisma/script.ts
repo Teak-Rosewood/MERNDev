@@ -10,6 +10,13 @@ async function main() {
         },
     });
     console.log(user);
+
+    const post = await prisma.post.create({
+        data: {
+            title: "Percy Jackson",
+            published: true,
+        },
+    });
 }
 
 main()

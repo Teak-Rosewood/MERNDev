@@ -1,8 +1,8 @@
 import express from "express";
-import * as userRouter from "./userRouter";
-import * as todoRouter from "./todoRouter";
+import userRouter from "./userRouter";
+import todoRouter from "./todoRouter";
 
-const router = express.router();
+const router = express.Router();
 
 router.use("/user", userRouter);
 router.use("/todos", todoRouter);

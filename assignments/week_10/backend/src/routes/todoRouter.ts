@@ -1,7 +1,7 @@
 import express from "express";
 import authMiddleware from "../authMiddleware";
 import { PrismaClient } from "@prisma/client";
-import * as z from "zod";
+import z from "zod";
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -9,8 +9,6 @@ const prisma = new PrismaClient();
 const todoObject = z.object({
     title: z.string(),
     description: z.string(),
-    userId: z.number(),
-    completed: z.boolean(),
 });
 
 const updatedTodoObejct = z.object({

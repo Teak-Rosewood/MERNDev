@@ -4,11 +4,14 @@ import "dotenv/config";
 import z from "zod";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import * as dotenv from "dotenv";
 
 const userInfo = z.object({
     username: z.string().email(),
     password: z.string(),
 });
+
+dotenv.config();
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -18,7 +21,7 @@ router.post("/signup", async (req: express.Request, res: express.Response) => {
     const { success } = userInfo.safeParse(req.body);
     if (!success) {
         return res.status(400).json({
-            message: "Invalid password format",
+            message: "Invalid username or password",
         });
     }
 
@@ -28,14 +31,15 @@ router.post("/signup", async (req: express.Request, res: express.Response) => {
             username: req.body.username,
         },
     });
-    if (!Boolean(user)) {
+    if (Boolean(user)) {
         return res.status(400).json({
             message: "Username already exists",
         });
     }
 
     // Creating User
-    const passwordHash = await bcrypt.hash(req.body.password, process.env.SALTROUNDS);
+    const SALTROUNDS = Number(process.env.SALTROUNDS) || 10;
+    const passwordHash = await bcrypt.hash(req.body.password, SALTROUNDS);
     const newUser = await prisma.user.create({
         data: {
             username: req.body.username,
