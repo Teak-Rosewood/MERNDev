@@ -1,7 +1,12 @@
+import { RecoilRoot } from "recoil";
+import Login from "./pages/Login";
+
 function App() {
     return (
         <>
-            <div>Hello World</div>
+            <RecoilRoot>
+                <Login />
+            </RecoilRoot>
         </>
     );
 }
