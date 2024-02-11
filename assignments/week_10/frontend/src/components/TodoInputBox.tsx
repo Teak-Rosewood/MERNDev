@@ -1,23 +1,47 @@
-import { useState } from "react";
+import axios from "axios";
+import { useCallback, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { jwt } from "../store/atoms";
 
-interface InputBarProp {
-    title: string;
-    description: string;
-    getData: (title: string, description: string) => void;
-}
-
-const TodoInputBox = ({ title, description, getData }: InputBarProp) => {
+const TodoInputBox = () => {
     const [taskTitleState, setTaskTitleState] = useState("");
     const [taskDescriptionState, setTaskDescriptionState] = useState("");
+    const token = useRecoilValue(jwt);
+
+    const createTodo = useCallback((title: string, description: string, token: string) => {
+        axios.post(
+            "http://localhost:3000/api/v1/todos/createTodo",
+            {
+                title: title,
+                description: description,
+            },
+            {
+                headers: {
+                    authorization: "Bearer " + token,
+                },
+            }
+        );
+    }, []);
     return (
         <>
-            <input type="text" placeholder={title} id="task" onChange={(event) => setTaskTitleState(event.target.value)}></input>
+            <div className="font-bold">Title</div>
+            <input type="text" placeholder="Title" id="task" onChange={(event) => setTaskTitleState(event.target.value)}></input>
             <br></br>
             <br></br>
-            <input type="text" placeholder={description} id="description" onChange={(event) => setTaskDescriptionState(event.target.value)}></input>
+            <div className="font-bold">Description</div>
+            <input
+                type="text"
+                placeholder="Task Description"
+                id="description"
+                onChange={(event) => setTaskDescriptionState(event.target.value)}
+            ></input>
             <br></br>
             <br></br>
-            <button type="button" className="btn btn-primary" onClick={() => getData(taskTitleState, taskDescriptionState)}>
+            <button
+                type="button"
+                className="btn btn-primary bg-slate-500 rounded p-1"
+                onClick={() => createTodo(taskTitleState, taskDescriptionState, token.value)}
+            >
                 Add Task
             </button>
         </>

@@ -1,12 +1,25 @@
-import { RecoilRoot } from "recoil";
-import Login from "./pages/Login";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Suspense, lazy } from "react";
+import { jwt } from "./store/atoms";
+import { useRecoilState } from "recoil";
+
+const Login = lazy(() => import("./pages/Login"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
 
 function App() {
+    const [token, setToken] = useRecoilState(jwt);
+
     return (
         <>
-            <RecoilRoot>
-                <Login />
-            </RecoilRoot>
+            <BrowserRouter>
+                {token.set === true ? <button onClick={() => setToken({ value: "", set: false })}>Logout</button> : <div></div>}
+                <Suspense fallback={<div>Loading...</div>}>
+                    <Routes>
+                        <Route path="/" element={<Login />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
+                    </Routes>
+                </Suspense>
+            </BrowserRouter>
         </>
     );
 }

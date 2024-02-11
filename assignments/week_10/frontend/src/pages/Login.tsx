@@ -1,13 +1,19 @@
-import { useCallback, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useCallback, useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import { jwt } from "../store/atoms";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const setToken = useSetRecoilState(jwt);
+    const [token, setToken] = useRecoilState(jwt);
     const [message, setMessage] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (token.set === false) navigate("/");
+        else navigate("/dashboard");
+    }, [token]);
 
     const createUser = useCallback((username: string, password: string) => {
         axios
@@ -17,7 +23,7 @@ const Login = () => {
             })
             .then((res) => {
                 setMessage(res.data.message);
-                setToken(res.data.token);
+                setToken({ value: res.data.token, set: true });
             })
             .catch((err) => {
                 setMessage(err.response.data.message);
@@ -41,7 +47,7 @@ const Login = () => {
 
     return (
         <>
-            <div className="bg-slate-300 h-screen flex justify-center">
+            <div className="bg-gray-300 h-screen flex justify-center">
                 <div className="rounded-lg bg-white w-80 text-center p-2 h-max px-4">
                     <div className="font-bold text-2xl pt-6">Login / Signup</div>
                     <div className="text-sm font-medium text-left py-2">Username</div>
