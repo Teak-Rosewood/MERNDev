@@ -1,73 +1,70 @@
+import { useRecoilState, useRecoilValue } from "recoil";
+import { jwt, todo, todoProp } from "../store/atoms";
+import TodoInfo from "./TodoInfo";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { jwt } from "../store/atoms";
 
-interface Todos {
-    id: number;
-    title: string;
-    description: string;
-    completed: boolean;
-}
 const TodoList = () => {
     const token = useRecoilValue(jwt);
-    const [todos, setTodos] = useState<Todos[]>([]);
+    const [todoarr, setTodoarr] = useRecoilState(todo(token.value));
 
-    useEffect(() => {
-        console.log(token.value);
-        if (token.set === true) fetchTodo(token);
-    }, [token]);
-
-    const fetchTodo = async (token: { value: string; set: boolean }) => {
-        axios
-            .get("http://localhost:3000/api/v1/todos/", {
+    const updateTodo = (id: number, status: boolean, token: string) => {
+        axios.post(
+            "http://localhost:3000/api/v1/todos/updateTodo",
+            {
+                id: id,
+                status: status,
+            },
+            {
                 headers: {
-                    authorization: "Bearer " + token.value,
+                    authorization: "Bearer " + token,
                 },
-            })
-            .then((res) => {
-                setTodos(res.data);
-                console.log("here");
-                console.log(todos);
-                console.log(res.data);
-            });
+            }
+        );
+
+        let tempTodo = [...todoarr];
+        let obj = {
+            id: id,
+            title: "",
+            description: "",
+            completed: status,
+        };
+        tempTodo = tempTodo.filter((data) => data.id !== id);
+
+        setTodoarr(tempTodo.push(obj));
     };
 
-    const updateTodo = useCallback(
-        (id: number, status: boolean) => {
-            axios.post(
-                "http://localhost:3000/api/v1/todos/updateTodo",
-                {
-                    id: id,
-                    status: status,
+    const deleteTodo = (id: number, token: string) => {
+        axios.post(
+            "http://localhost:3000/api/v1/todos/deleteTodo",
+            {
+                id: id,
+            },
+            {
+                headers: {
+                    authorization: "Bearer " + token,
                 },
-                {
-                    headers: {
-                        authorization: "Bearer " + token.value,
-                    },
-                }
-            );
-        },
-        [token]
-    );
+            }
+        );
 
-    const deleteTodo = useCallback(
-        (id: number) => {
-            axios.post(
-                "http://localhost:3000/api/v1/todos/deleteTodo",
-                {
-                    id: id,
-                },
-                {
-                    headers: {
-                        authorization: "Bearer " + token.value,
-                    },
-                }
-            );
-        },
-        [token]
-    );
+        let tempTodo = [...todoarr];
+        tempTodo = tempTodo.filter((data) => data.id !== id);
+        setTodoarr(tempTodo);
+    };
 
-    return <div>List of Todos</div>;
+    return (
+        <>
+            {todoarr.map((item: todoProp) => (
+                <TodoInfo
+                    title={item.title}
+                    description={item.description}
+                    completed={item.completed}
+                    id={item.id}
+                    key={item.id}
+                    updateTodo={updateTodo}
+                    deleteTodo={deleteTodo}
+                />
+            ))}
+        </>
+    );
 };
 export default TodoList;

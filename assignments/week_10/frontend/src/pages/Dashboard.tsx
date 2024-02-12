@@ -23,9 +23,8 @@ const Dashboard = () => {
                     <br />
                     <TodoInputBox />
                     <br></br>
-                    <br></br>
-                    <br></br>
-                    <TodoList />
+                    <div className="font-bold text-1xl pt-6">Tasks To Do</div>
+                    {token.set === true ? <TodoList /> : <></>}
                 </div>
             </div>
         </>

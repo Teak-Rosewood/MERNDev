@@ -66,7 +66,7 @@ router.post("/createTodo", authMiddleware, async (req: express.Request, res: exp
     const message = "Todo Created with id:" + todo.id;
 
     res.json({
-        message: message,
+        id: todo.id,
     });
 });
 

@@ -1,27 +1,42 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { jwt } from "../store/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { jwt, todo } from "../store/atoms";
 
 const TodoInputBox = () => {
     const [taskTitleState, setTaskTitleState] = useState("");
     const [taskDescriptionState, setTaskDescriptionState] = useState("");
     const token = useRecoilValue(jwt);
+    const [todoarr, setTodoarr] = useRecoilState(todo(token.value));
 
     const createTodo = useCallback((title: string, description: string, token: string) => {
-        axios.post(
-            "http://localhost:3000/api/v1/todos/createTodo",
-            {
-                title: title,
-                description: description,
-            },
-            {
-                headers: {
-                    authorization: "Bearer " + token,
+        axios
+            .post(
+                "http://localhost:3000/api/v1/todos/createTodo",
+                {
+                    title: title,
+                    description: description,
                 },
-            }
-        );
+                {
+                    headers: {
+                        authorization: "Bearer " + token,
+                    },
+                }
+            )
+            .then((res) => {
+                const id = res.data.id;
+                const obj = {
+                    id: id,
+                    title: title,
+                    description: description,
+                    completed: false,
+                };
+                let tempTodo = [...todoarr];
+                tempTodo.push(obj);
+                setTodoarr(tempTodo);
+            });
     }, []);
+
     return (
         <>
             <div className="font-bold">Title</div>
