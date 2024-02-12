@@ -19,7 +19,9 @@ const TodoInfo = ({ title, description, completed, id, updateTodo, deleteTodo }:
             <h4 key={id + "-title"} className="font-medium">
                 {title}
             </h4>
-            <div key={id + "-description"}>{description}</div>
+            <div key={id + "-description"} className="font-normal">
+                {description}
+            </div>
             <div className="flex">
                 <button
                     type="button"
