@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { jwt, todo } from "../store/atoms";
+import { jwt, todo, todoProp } from "../store/atoms";
 
 const TodoInputBox = () => {
     const [taskTitleState, setTaskTitleState] = useState("");
@@ -24,16 +24,13 @@ const TodoInputBox = () => {
                 }
             )
             .then((res) => {
-                const id = res.data.id;
                 const obj = {
-                    id: id,
+                    id: res.data.id,
                     title: title,
                     description: description,
                     completed: false,
                 };
-                let tempTodo = [...todoarr];
-                tempTodo.push(obj);
-                setTodoarr(tempTodo);
+                setTodoarr((todoarr: todoProp[]) => [...todoarr, obj]);
             });
     }, []);
 

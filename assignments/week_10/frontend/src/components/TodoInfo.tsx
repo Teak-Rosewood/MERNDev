@@ -11,12 +11,14 @@ interface TodoInfoProp {
 }
 
 const TodoInfo = ({ title, description, completed, id, updateTodo, deleteTodo }: TodoInfoProp) => {
-    let buttonStatus = completed ? "Completed" : "Mark as Done";
+    let buttonStatus = completed ? "Completed" : "Done";
 
     const token = useRecoilValue(jwt);
     return (
         <>
-            <h4 key={id + "-title"}>{title}</h4>
+            <h4 key={id + "-title"} className="font-medium">
+                {title}
+            </h4>
             <div key={id + "-description"}>{description}</div>
             <div className="flex">
                 <button
@@ -40,8 +42,6 @@ const TodoInfo = ({ title, description, completed, id, updateTodo, deleteTodo }:
                     Delete
                 </button>
             </div>
-
-            <br />
         </>
     );
 };

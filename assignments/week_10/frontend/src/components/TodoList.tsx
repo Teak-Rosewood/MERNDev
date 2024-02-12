@@ -21,16 +21,18 @@ const TodoList = () => {
             }
         );
 
-        let tempTodo = [...todoarr];
-        let obj = {
-            id: id,
-            title: "",
-            description: "",
-            completed: status,
-        };
-        tempTodo = tempTodo.filter((data) => data.id !== id);
-
-        setTodoarr(tempTodo.push(obj));
+        let tempTodo: todoProp[] = [];
+        for (let i = 0; i < todoarr.length; i++) {
+            if (todoarr[i].id === id) {
+                tempTodo.push({
+                    id: todoarr[i].id,
+                    title: todoarr[i].title,
+                    description: todoarr[i].description,
+                    completed: status,
+                });
+            } else tempTodo.push(todoarr[i]);
+        }
+        setTodoarr(tempTodo);
     };
 
     const deleteTodo = (id: number, token: string) => {
