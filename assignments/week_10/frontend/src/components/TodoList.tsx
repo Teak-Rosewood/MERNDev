@@ -9,7 +9,7 @@ const TodoList = () => {
 
     const updateTodo = (id: number, status: boolean, token: string) => {
         axios.post(
-            "http://backendtodo.saatwik.in/api/v1/todos/updateTodo",
+            "https://backendtodo.saatwik.in/api/v1/todos/updateTodo",
             {
                 id: id,
                 status: status,
@@ -37,7 +37,7 @@ const TodoList = () => {
 
     const deleteTodo = (id: number, token: string) => {
         axios.post(
-            "http://backendtodo.saatwik.in/api/v1/todos/deleteTodo",
+            "https://backendtodo.saatwik.in/api/v1/todos/deleteTodo",
             {
                 id: id,
             },

@@ -12,7 +12,7 @@ const TodoInputBox = () => {
     const createTodo = useCallback((title: string, description: string, token: string) => {
         axios
             .post(
-                "http://backendtodo.saatwik.in/api/v1/todos/createTodo",
+                "https://backendtodo.saatwik.in/api/v1/todos/createTodo",
                 {
                     title: title,
                     description: description,

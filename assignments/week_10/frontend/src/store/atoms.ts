@@ -14,7 +14,7 @@ export const todo = atomFamily({
         key: "fetchdata",
         get: (token: string) => async () => {
             try {
-                const data = await axios.get("http://backendtodo.saatwik.in/api/v1/todos/", {
+                const data = await axios.get("https://backendtodo.saatwik.in/api/v1/todos/", {
                     headers: {
                         authorization: "Bearer " + token,
                     },

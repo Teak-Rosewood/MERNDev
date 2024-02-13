@@ -17,7 +17,7 @@ const Login = () => {
 
     const createUser = useCallback((username: string, password: string) => {
         axios
-            .post("http://backendtodo.saatwik.in/api/v1/user/signup", {
+            .post("https://backendtodo.saatwik.in/api/v1/user/signup", {
                 username: username,
                 password: password,
             })
@@ -32,7 +32,7 @@ const Login = () => {
 
     const loginUser = useCallback((username: string, password: string) => {
         axios
-            .post("http://backendtodo.saatwik.in/api/v1/user/login", {
+            .post("https://backendtodo.saatwik.in/api/v1/user/login", {
                 username: username,
                 password: password,
             })
