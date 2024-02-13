@@ -12,20 +12,18 @@ export const todo = atomFamily({
     key: "todo",
     default: selectorFamily({
         key: "fetchdata",
-        get:
-            (token: string) =>
-            async ({ get }) => {
-                try {
-                    const data = await axios.get("http://localhost:3000/api/v1/todos/", {
-                        headers: {
-                            authorization: "Bearer " + token,
-                        },
-                    });
-                    return data.data;
-                } catch (error) {
-                    return [] as todoProp[];
-                }
-            },
+        get: (token: string) => async () => {
+            try {
+                const data = await axios.get("http://localhost:3000/api/v1/todos/", {
+                    headers: {
+                        authorization: "Bearer " + token,
+                    },
+                });
+                return data.data;
+            } catch (error) {
+                return [] as todoProp[];
+            }
+        },
     }),
 });
 

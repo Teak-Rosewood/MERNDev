@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { jwt, todo, todoProp } from "../store/atoms";
 
 const TodoInputBox = () => {
     const [taskTitleState, setTaskTitleState] = useState("");
     const [taskDescriptionState, setTaskDescriptionState] = useState("");
     const token = useRecoilValue(jwt);
-    const [todoarr, setTodoarr] = useRecoilState(todo(token.value));
+    const setTodoarr = useSetRecoilState(todo(token.value));
 
     const createTodo = useCallback((title: string, description: string, token: string) => {
         axios
